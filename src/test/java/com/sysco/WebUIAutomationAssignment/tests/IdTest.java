@@ -156,15 +156,11 @@ public class IdTest extends TestBase {
     @Test (priority=11)//(description = "Select Item ")
     public void testPurchaseOrder() throws Exception {
         Thread.sleep(6000);
-
         Checkout.enterCreditCardNumber("4222222222222");
         Checkout.enterCVVNumber("123");
         Checkout.clickPurchaseMyOrder();
-        String value = Checkout.getStayInTouchText();
+       // String value = Checkout.getStayInTouchText();
 
-        //String cvvRequiredMessage = Checkout.getCVVRequiredValidationMessage();
-        // Assert.assertEquals(value,"STAY IN TOUCH","Completed Order");
-        //Assert.assertEquals(cvvRequiredMessage,"This is a required field.","CVV field - required");
     }
 
 

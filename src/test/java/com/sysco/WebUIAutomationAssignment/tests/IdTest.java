@@ -3,6 +3,7 @@ package com.sysco.WebUIAutomationAssignment.tests;
 
 import com.sysco.WebUIAutomationAssignment.data.IdData;
 import com.sysco.WebUIAutomationAssignment.data.LoginData;
+import com.sysco.WebUIAutomationAssignment.data.CreditCardData;
 import com.sysco.WebUIAutomationAssignment.functions.Cart;
 import com.sysco.WebUIAutomationAssignment.functions.MyAccount;
 import com.sysco.WebUIAutomationAssignment.functions.Id;
@@ -10,6 +11,7 @@ import com.sysco.WebUIAutomationAssignment.functions.Login;
 import com.sysco.WebUIAutomationAssignment.functions.Checkout;
 import com.sysco.WebUIAutomationAssignment.utils.ExcelUtil;
 import com.sysco.WebUIAutomationAssignment.utils.TestBase;
+import fitlibraryGeneric.specify.workflow.Check;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
@@ -59,14 +61,14 @@ public class IdTest extends TestBase {
         Thread.sleep(6000);
         Id.navigateToMyAccount();
         boolean value = Id.loginVisibilty();
-        Assert.assertEquals(value,true,"booleanLogin button visibility");
+        Assert.assertEquals(value,true,"Login button visibility");
     }
 
 
     @Test (priority=4)//(description = "Email and password validation")
     public void testCredetentialValidation() throws Exception {
         Thread.sleep(6000);
-        Login.validationLoginCredentials(LoginData.invalidUserName,"12345");
+        Login.validationLoginCredentials(LoginData.invalidUserName,LoginData.invalidPassword);
         Assert.assertEquals(Login.getLoginUsernameValidationMessage(),IdData.invalidUsername,"Invalid UserName");
     }
 
@@ -75,11 +77,11 @@ public class IdTest extends TestBase {
     public void testLogin() throws Exception {
         Thread.sleep(100);
         //Id.clearDataInTextBox();
-        Id.validationLoginCredentials("williamjacob802@gmail.com","12345678");
+        Id.validationLoginCredentials(LoginData.validUserName,LoginData.validPassword);
         Thread.sleep(6000);
         String value = MyAccount.getWelcomeTitle();
         System.out.print(value);
-        Assert.assertEquals(value,"HELLO, WILLIAM JACOB!","boolean");
+        Assert.assertEquals(value,LoginData.welcomeTitle,"boolean");
 
     }
 /*
@@ -102,7 +104,7 @@ public class IdTest extends TestBase {
         System.out.print(value);
         MyAccount.chekout();
 
-        Assert.assertEquals(value,"BUNDABERG BLACK 700ML","Item - verification - account page");
+        Assert.assertEquals(value,LoginData.itemName,"Item - verification - account page");
     }
 
     @Test (priority=7)//(description = "Select Item ")
@@ -110,7 +112,7 @@ public class IdTest extends TestBase {
         Thread.sleep(6000);
         String value = Cart.getCartItemName();
 
-        Assert.assertEquals(value,"BUNDABERG BLACK 700ML","Item Verification - cart page");
+        Assert.assertEquals(value,LoginData.itemName,"Item Verification - cart page");
     }
 
 
@@ -122,8 +124,8 @@ public class IdTest extends TestBase {
         String firstName = Cart.getFirstName();
         String lastName = Cart.getLastName();
 
-        Assert.assertEquals(firstName,"william","FirstName Verification - Checkout page");
-        Assert.assertEquals(lastName,"jacob","LastName Verification - Checkout page");
+        Assert.assertEquals(firstName,LoginData.firstName,"FirstName Verification - Checkout page");
+        Assert.assertEquals(lastName,LoginData.lastName,"LastName Verification - Checkout page");
     }
 
 
@@ -136,8 +138,8 @@ public class IdTest extends TestBase {
         Checkout.clickPurchaseMyOrder();
         String ccRequiredMessage = Checkout.getCCRequiredValidationMessage();
         String cvvRequiredMessage = Checkout.getCVVRequiredValidationMessage();
-        Assert.assertEquals(ccRequiredMessage,"This is a required field.","Credit Card field - required");
-        Assert.assertEquals(cvvRequiredMessage,"This is a required field.","CVV field - required");
+        Assert.assertEquals(ccRequiredMessage,CreditCardData.CCFieldRequiredMessage,"Credit Card field - required");
+        Assert.assertEquals(cvvRequiredMessage,CreditCardData.CCFieldRequiredMessage,"CVV field - required");
 
     }
 
@@ -145,7 +147,7 @@ public class IdTest extends TestBase {
     public void testInvalidCreditCard() throws Exception {
         Thread.sleep(6000);
 
-        Checkout.enterCreditCardNumber("12333333");
+        Checkout.enterCreditCardNumber(CreditCardData.invalidCCnumber);
         Checkout.clickPurchaseMyOrder();
         String invalidCCmessage = Checkout.getInvalidCCNumberRequiredValidationMessage();
         //String cvvRequiredMessage = Checkout.getCVVRequiredValidationMessage();
@@ -156,8 +158,8 @@ public class IdTest extends TestBase {
     @Test (priority=11)//(description = "Select Item ")
     public void testPurchaseOrder() throws Exception {
         Thread.sleep(6000);
-        Checkout.enterCreditCardNumber("4222222222222");
-        Checkout.enterCVVNumber("123");
+        Checkout.enterCreditCardNumber(CreditCardData.validCCnumber);
+        Checkout.enterCVVNumber(CreditCardData.cvvNumber);
         Checkout.clickPurchaseMyOrder();
        // String value = Checkout.getStayInTouchText();
 

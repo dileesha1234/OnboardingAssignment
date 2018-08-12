@@ -25,8 +25,11 @@ import org.openqa.selenium.Capabilities;
     }
 
     public static void clickPurchaseMyOrder() {
+        checkoutPage.clickTermsAndConditions();
         checkoutPage.clickPurchaseMyOrder();
+
     }
+
 
     public static String getCCRequiredValidationMessage () {
         return checkoutPage.getCCRequiredValidationMessage();
